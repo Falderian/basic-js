@@ -16,25 +16,32 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
  function repeater(str, options) {
+  str = str + '';
+
   let result = '';
-  if(options.repeatTimes === undefined) {
-    return (result = `${str}${options.addition}`);
+  if (options) { 
+    if (!(options.separator)) {options.separator = '+';}
+    if (!(options.additionSeparator)) { options.additionSeparator = '|'; }
+    if(options.addition !== undefined) {options.addition = String(options.addition);
+      if(options.additionRepeatTimes) {let add2 = `${options.addition}${options.additionSeparator}`;
+        result  = str + add2.repeat(options.additionRepeatTimes - 1) + (`${options.addition}`);
+      } else result = str + options.addition;
+      if(options.repeatTimes) {
+        let rep = result + options.separator;
+        result = rep.repeat(options.repeatTimes - 1)+ result;
+      }
+    } else {
+      if(options.repeatTimes > 1) {
+        let rep = str + options.separator;
+        result = rep.repeat(options.repeatTimes - 1)+ str;
+      } else result = str;
+    }
   }
   else {
-    if(options.separator === undefined){
-      for(let i = 0; i < options.repeatTimes; i++) {
-        result += `${str}+`;
-      }
-      return result.slice(0, -1);
-    }
-    else {
-      for(let i = 0; i < options.repeatTimes; i++) {
-        if(options.addition === undefined) options.addition = '';
-        result += `${str}${options.addition}${options.separator}`;
-      }
-      return (result.slice(0, -(options.separator.length)));
-    }
+    result = str;
   }
+  return result;
+
 }
 
 module.exports = {
