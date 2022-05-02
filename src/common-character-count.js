@@ -13,32 +13,15 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 
 'zbac', 'abca'
-function getCommonCharacterCount(s1, s2) {
-  let charCount = 0;
-  if(s1 === 'abca') {charCount = 3; return charCount
-  } 
-  else {  
-    let shortestStr, longestStr = '';
-    if(s1.length >= s2.length) {
-      longestStr = s1;
-      shortestStr = s2;
+function getCommonCharacterCount(str1, str2) {
+  let countCommon = 0;
+  for (let i = 0; i < str1.length; i++) {
+    if (str2.includes(str1[i])) {
+      str2 = str2.replace(str1[i], "");
+      countCommon++;
     }
-    else {
-      longestStr = s2;
-      shortestStr = s1;
-    }  
-    
-    for(let i = 0; i < shortestStr.length; i++) {
-      let searchChar = longestStr[0];
-        if(longestStr != '') {
-          if(searchChar === shortestStr[i]) {
-            charCount++;
-          }
-        }
-      longestStr.slice(1);
-    }
-    return charCount;
   }
+  return countCommon;
 }
 
 module.exports = {
